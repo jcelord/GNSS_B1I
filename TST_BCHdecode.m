@@ -38,7 +38,7 @@ end
 %% BCH译码
 code_dec = zeros(M*num_t,1);          %纠错解码后的序列
 correctTable = [1,2,5,3,9,6,11,4,15,10,8,7,14,12,13];
-%correctTable = 16 - correctTable;
+correctTable = 16 - correctTable;
 % correctTable = [12,13,1,14,5,2,7,15,11,6,4,3,10,8,9];
 for num = 1:num_t
     code_tmp = coded_noise((num-1)*N+1:num*N);   % 逐段截取数据进行译码
