@@ -37,32 +37,38 @@ function settings = initSettings()
 %% Processing settings ====================================================
 % Number of milliseconds to be processed used 36000 + any transients (see below - in Nav parameters)
 % to ensure nav subframes are provided
-settings.msToProcess = 500;                             %[ms]
+settings.msToProcess = 1500;                             %[ms]
 
 % Number of channels to be used for signal processing
 % settings.numberOfChannels  = 4;                        % 6
-settings.numberOfChannels  = 8;
+settings.numberOfChannels  = 1;
 
 % Move the starting point of processing. 
 % Can be used to start the signal processing at any point in the data record (e.g. for long records). 
 % fseek function is used to move the file read point, therefore advance is byte based only. 
 % settings.skipNumberOfBytes = 40000000;          % 600000000
-settings.skipNumberOfBytes = 600000000;
+settings.skipNumberOfBytes = 0;
 
 %% Raw signal file name and other parameter ===============================
 % This is a "default" name of the data file (signal record) to be used in the post-processing mode
-settings.fileName = 'test_beidou_sim_100ms.dat';
+% settings.fileName = 'simdata2.dat';            % simulate data
+settings.fileName = 'ifdata_5s_bit3.bin';              % real data
 
 % Data type used to store one sample
-settings.dataType = 'double';                 %@@int8
+settings.dataType = 'bit3';                 %@@int8
 
 % Intermediate, sampling and code frequencies
-settings.IF = 4.092e6;                                           %3.996e6%4.092e6 %1.42e6 %4.123968e6;      %[Hz]
-settings.samplingFreq =16.369e6;                       %@@16.369e6%16.368e6 %5.714e6 %16.367667e6;     %[Hz]
+settings.f_rf = 1561.098e6;
+settings.IF = 4.098e6;                                           %3.996e6%4.092e6 %1.42e6 %4.123968e6;      %[Hz]
+settings.samplingFreq =25e6;                       %@@16.369e6%16.368e6 %5.714e6 %16.367667e6;     %[Hz]
 settings.codeFreqBasis = 2.046e6;                       %[Hz]
-
+settings.carrFreq = 1561.098e6;                     % BeiDou B1 nominal frequency
+settings.f_nh = 1e3;                        %[Hz] Nominal Neiman-Huffman-generator clock frequency;
+settings.f_data = 50;                       %[Hz] Nominal data rate of BeiDou D1 signal
 % Define number of chips in a code period
 settings.codeLength = 2046;
+
+settings.Tcoh = 1e-3;
 
 %% Acquisition settings ===================================================
 % Skips acquisition in the script postProcessing.m if set to 1
@@ -84,16 +90,16 @@ settings.dllNoiseBandwidth = 2;                           %[Hz]
 settings.dllCorrelatorSpacing = 0.5;                     %[chips]
 
 % Carrier tracking loop parameters  -- PLL
-settings.pllDampingRatio = 0.707;                         
-settings.pllNoiseBandwidth = 15;                         %[Hz]
+settings.pllDampingRatio = 0.7;                         % 0.7                   
+settings.pllNoiseBandwidth = 18;                         %[Hz] 25
 
 % Carrier tracking loop parameters  -- FLL
-settings.fllDampingRatio = 0.9;                         
-settings.fllNoiseBandwidth = 110;                         %[Hz]
+settings.fllDampingRatio = 0.7;                         % 0.9 
+settings.fllNoiseBandwidth = 40;                         %[Hz]  110
 
 %% Navigation solution settings ===========================================
 % Period for calculating pseudoranges and position
-settings.navSolPeriod = 500;                               %[ms]
+settings.navSolPeriod = 1500;                               %[ms]
 
 % Elevation mask to exclude signals from satellites at low elevation
 settings.elevationMask = 10;                               %[degrees 0~90]
